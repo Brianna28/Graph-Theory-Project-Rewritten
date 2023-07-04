@@ -50,7 +50,7 @@ def model(graph: nx.Graph,p_i: float, p_r: float,intial_infected: int = 1,intial
     Returns:
         tuple[dict,dict]: The tuple contains information about the graph, the infection parameters and data from the model
     """    
-    infection_network = infection_graph(deepcopy(graph),initial_infected=intial_infected,intial_immune = intial_immune,enable_vis=enable_vis) #Creates an instance of the infection_graph
+    infection_network = infection_graph(graph.copy(),initial_infected=intial_infected,intial_immune = intial_immune,enable_vis=enable_vis) #Creates an instance of the infection_graph
     origin_network = deepcopy(infection_network) #Makes a copy of G so we can compare later
     days_of_the_infcetion = 0
     '''For all intensive purposes this for loop will run forever until either all the nodes die or the infection dies out'''
@@ -79,6 +79,9 @@ def model(graph: nx.Graph,p_i: float, p_r: float,intial_infected: int = 1,intial
                 total_death = False
                 if enable_vis is True:
                     '''Here we render both the orginal grpah and a graph of all the survivors to compare the devasation or lack there of'''
+                    print(infection_network.colours)
+                    infection_network.update_picture()
+                    print(infection_network.colours)
                     f = plt.figure('Starting Graph')
                     nx.draw_networkx(origin_network.nxgraph,node_color = origin_network.colours.values() ,pos=origin_network.pos,with_labels=True)
                     f.show()
@@ -106,7 +109,9 @@ def model(graph: nx.Graph,p_i: float, p_r: float,intial_infected: int = 1,intial
 
     
 def main():
-    result = model(*userpanel())
+    #result = model(*userpanel())
+    g = graph_drawer.generate_random_graph(25,0.2)
+    result = model(g,0.6,0.2,enable_vis=True)
     output_window(result)
     # testing = [100,200,300,500,600,700,800,900,1000,1500,2000,2500,3000,4000,5000,6000,7000]
     # times = []

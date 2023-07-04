@@ -1,26 +1,9 @@
 import numpy as np
-
-def clustering_coefficient(adj_matrix):
-    # Calculate the degree of each vertex
-    degrees = np.sum(adj_matrix, axis=1)
-
-    # Calculate the number of triangles each vertex participates in
-    triangles = np.dot(adj_matrix, np.dot(adj_matrix, adj_matrix))
-
-    # Calculate the clustering coefficient for each vertex
-    clustering_coeffs = np.zeros(len(adj_matrix))
-    for i in range(len(adj_matrix)):
-        k = degrees[i]
-        if k >= 2:
-            clustering_coeffs[i] = (2 * triangles[i, i]) / (k * (k - 1))
-
-    return clustering_coeffs.tolist()
-
-# Example usage
-adjacency_matrix = np.array([[0, 1, 1, 0],
-                             [1, 0, 1, 1],
-                             [1, 1, 0, 1],
-                             [0, 1, 1, 0]])
-
-coefficients = clustering_coefficient(adjacency_matrix)
-print(coefficients)
+import networkx as nx
+di= {0: 'blue', 1: 'blue', 2: 'blue', 3: 'blue', 4: 'blue', 5: 'blue', 6: 'blue', 7: 'blue', 8: 'blue', 9: 'blue', 10: 'blue', 11: 'blue', 12: 'blue', 13: 'blue', 14: 'blue', 15: 'blue', 16: 'blue', 17: 'blue', 18: 'blue', 19: 'blue', 20: 'blue', 21: 'blue', 22: 'red', 23: 'red', 24: 'blue'}
+alive = [0,5,8]
+doner = {}
+for i in di:
+    if i in alive:
+        doner.update({i:di.get(i)})
+print(doner)

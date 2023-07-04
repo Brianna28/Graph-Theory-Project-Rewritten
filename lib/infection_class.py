@@ -4,8 +4,8 @@ from lib.betterdiameter import betterdiameter
 import logging
 import random as rand
 from math import floor
-
-
+from lib.average_shortest_path import average_shortest_path_length
+from lib.clustering_coefficent import average_clustering_coefficient
 """
     TODO: Add clustering Coefficent ()
     TODO: Add Aveerage Shortest Path Length ()
@@ -35,15 +35,13 @@ class infection_graph:
         self.highestdegree = list(self.histogram)[-1] #Gives the last element of the histogram to give the highest degree
         self.average_degree = sum([key*val for key, val in self.histogram.items()])/self.no_nodes #we take all the values from the histogram dictionary, multiply the frequency by the degree then take the mean of that      
         self.diameter = betterdiameter(self.graph) #See betterdiameter documentation
-        #self.clustering = nx.average_clustering(self.graph)#returns the average clustering coeffcient by calculating the local clustering coefficent for each node
-        #try:
-        #    self.average_path_length = nx.average_shortest_path_length(self.graph) #This calulates the average shortest path length for the graph, if the graph is discconncted this will raise and exception
-        #except Exception: #Incase of that exception we set the average shortest path length to 0
-         #   self.average_path_length = 0
+        self.clustering = average_clustering_coefficient(self.graph)#returns the average clustering coeffcient by calculating the local clustering coefficent for each node
+
+        self.average_path_length = average_shortest_path_length(self.graph) #This calulates the average shortest path length for the graph, if the graph is discconncted this will raise and exception
         if enable_vis:
-           self.colours = self.colour()
-           self.nxgraph  = nx.from_numpy_array(self.graph)
-           self.pos = nx.spring_layout(self.nxgraph)# This sets a standard layout for when we output images of the graph
+            self.colours = self.colour()
+            self.nxgraph = nx.from_numpy_array(self.graph)
+            self.pos = nx.spring_layout(self.nxgraph)
         ########################################################################
         self.no_of_intitial_infected  = initial_infected
         self.no_of_intitial_immune  = intial_immune
@@ -116,9 +114,9 @@ class infection_graph:
         """        
         return {'highest_degree':self.highestdegree,
                 'Diameter':self.diameter,
+                'average_path_length':self.average_path_length,
+                'average_clustering': self.clustering,
                 'average_degree':self.average_degree} 
-        #'average_path_length':self.average_path_length,
-        # 'average_clustering': self.clustering,
     def inf_stats(self) -> dict:
         """This function returns information about the infection
 
@@ -162,7 +160,10 @@ class infection_graph:
         samples = [rand.random() for _ in range(self.no_nodes)]
         personal_infections = dict(zip(self.vertices,samples))
         return personal_infections
-    
+    def update_picture(self):
+        self.colours = {i:self.colours.get(i) for i in self.colours if i in self.vertices}
+        self.nxgraph  = nx.from_numpy_array(self.graph)
+        self.pos = nx.spring_layout(self.nxgraph)# This sets a standard layout for when we output images of the graph
     
 if __name__  == '__main__':
     g = np.array([[0, 1, 1],
