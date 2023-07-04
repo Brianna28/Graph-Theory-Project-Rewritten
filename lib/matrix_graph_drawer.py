@@ -3,6 +3,12 @@ import numpy as np
 
 class graph_drawer:
     def generate_random_graph(num_nodes: int, edge_probability: float) -> np.ndarray:
+        if num_nodes == 0:
+            err = "Graphs need more than one node"
+            raise ValueError(err)
+        
+        
+        
         adjacency_matrix = np.zeros((num_nodes, num_nodes), dtype=int)
         
         for i in range(num_nodes):
@@ -14,6 +20,9 @@ class graph_drawer:
         return adjacency_matrix
 
     def generate_wheel_graph(num_nodes: int) -> np.ndarray:
+        if num_nodes == 0:
+            err = "Graphs need more than one node"
+            raise ValueError(err)
         adjacency_matrix = np.zeros((num_nodes, num_nodes), dtype=int)
         
         # Connect nodes in a cycle
@@ -29,6 +38,12 @@ class graph_drawer:
 
 
     def generate_barabasi_albert_graph(num_nodes: int, num_edges_to_attach: int, existing_graph: np.ndarray=None)->np.ndarray:
+        if num_nodes == 0:
+            err = "Graphs need more than one node"
+            raise ValueError(err)
+        if num_nodes < num_edges_to_attach:
+            raise ValueError("The number of edges added must be less than the number of nodes")
+        
         if existing_graph is None:
             adjacency_matrix = np.zeros((num_nodes, num_nodes), dtype=int)
             degrees = np.zeros(num_nodes, dtype=int)
@@ -66,6 +81,8 @@ class graph_drawer:
         return adjacency_matrix
 
     def generate_cycle_graph(num_nodes):
+        if num_nodes == 0:
+            raise ValueError("Need more than 0 nodes")
         adjacency_matrix = np.zeros((num_nodes, num_nodes), dtype=int)
         
         for i in range(num_nodes):
@@ -75,10 +92,14 @@ class graph_drawer:
         return adjacency_matrix
 
     def generate_complete_graph(num_nodes):
+        if num_nodes == 0:
+            raise ValueError("Need more than 0 nodes")
         adjacency_matrix = np.ones((num_nodes, num_nodes), dtype=int) - np.eye(num_nodes, dtype=int)
         return adjacency_matrix
 
     def generate_star_graph(num_nodes):
+        if num_nodes == 0:
+            raise ValueError("Need more than 0 nodes")
         adjacency_matrix = np.zeros((num_nodes, num_nodes), dtype=int)
         
         # Connect all nodes to the central node (node 0)

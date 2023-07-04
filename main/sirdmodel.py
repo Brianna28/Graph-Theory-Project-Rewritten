@@ -113,7 +113,7 @@ def model(graph: ndarray,p_i: float, p_r: float,intial_infected: int = 1,intial_
     
 def main():
     #result = model(*userpanel())
-    graph = graph_drawer.generate_random_graph(1000,0.5)
+    graph = graph_drawer.generate_random_graph(50,0.5)
     time = perf_counter()
     result = model(graph,0.6,0.2)
     #output_window(result)

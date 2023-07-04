@@ -90,7 +90,7 @@ class infection_graph:
     def init_immune(self) -> None:
         """Makes nodes immune from day 0
         """        
-        r_number = rand.randrange(0,self.no_nodes) #Pick a random integer between 0 and self.no nodes
+        r_number = np.random.randint(0, self.no_nodes) #Pick a random integer between 0 and self.no nodes
         node = self.vertices[r_number]#using that random integer it selects the node from the graph
         if self.timesrecovered[node]>0: #if the node is already immune it runs the function gain to pick a different node
             self.init_immune()
@@ -99,7 +99,7 @@ class infection_graph:
     def inital_infection(self) -> None:
         """Infects the intial nodes at day 0
         """        
-        r_number = rand.randrange(0,self.no_nodes)
+        r_number = np.random.randint(0, self.no_nodes)
         if self.timesrecovered[r_number] > 0: #If the node is already immune it cant infect the node
             self.inital_infection()
         if self.vertices[r_number] in self.infected: #if the node is already infected it selects another node
