@@ -1,7 +1,7 @@
 from time import perf_counter
 from copy import deepcopy
 import numpy as np
-from lib.matrix_graph_drawer import generate_random_graph
+from lib.matrix_graph_drawer import graph_drawer
 
 def test_betterdiameter(G: np.ndarray) -> int:
     """This function calculates the diameter of a graph using matrix multiplications.
@@ -75,7 +75,7 @@ def betterdiameter(G: np.ndarray) -> int:
 
 if __name__ == '__main__':
     #K = nx.barabasi_albert_graph(10, 7)
-    K = generate_random_graph(10000,0)
+    K = graph_drawer.generate_random_graph(10000,0)
     t = perf_counter()
     #my = betterdiameter(K)
     #print(f'My algoirthim took {perf_counter() - t},{my=}')

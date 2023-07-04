@@ -13,7 +13,7 @@ sys.path.append(parent_dir)
 from lib.infection_class import infection_graph
 from lib.infection_strategies import infection_strat,ConstantRateInfection, PersonalInfection, SkillCheckInfection
 from lib.gui import userpanel, output_window
-from lib.matrix_graph_drawer import generate_random_graph
+from lib.matrix_graph_drawer import graph_drawer
 logging.basicConfig(level=logging.WARNING)
 
 
@@ -106,17 +106,17 @@ def model(graph: nx.Graph,p_i: float, p_r: float,intial_infected: int = 1,intial
 
     
 def main():
-    #result = model(*userpanel())
-    #output_window(result)
-    testing = [100,200,300,500,600,700,800,900,1000,1500,2000,2500,3000,4000,5000,6000,7000]
-    times = []
-    for i in testing:
-        time = perf_counter()
-        graph = generate_random_graph(i,0.2)
-        print(model(graph,0.6,0.3))
-        time_taken = perf_counter()-time
-        times.append(time_taken)
-    print(times)
+    result = model(*userpanel())
+    output_window(result)
+    # testing = [100,200,300,500,600,700,800,900,1000,1500,2000,2500,3000,4000,5000,6000,7000]
+    # times = []
+    # for i in testing:
+    #     time = perf_counter()
+    #     graph = generate_random_graph(i,0.2)
+    #     print(model(graph,0.6,0.3))
+    #     time_taken = perf_counter()-time
+    #     times.append(time_taken)
+    # print(times)
     
     
     

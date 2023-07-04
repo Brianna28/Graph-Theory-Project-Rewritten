@@ -6,8 +6,9 @@ Rewrite this section only using matrices ()
 import networkx as nx
 from math import comb
 from lib.infection_strategies import ConstantRateInfection, PersonalInfection, SkillCheckInfection
+from lib.matrix_graph_drawer import graph_drawer
 import logging
-
+import numpy as np
 try:
     import PySimpleGUI as sg
     NOGUI = False
@@ -22,43 +23,43 @@ except ImportError:
 class graph_constructer:
     """_summary_
     """    
-    def barabasi(init_graph: nx.Graph, no_nodes: int, edges: int) -> nx.Graph:
+    def barabasi(init_graph: np.ndarray, no_nodes: int, edges: int) -> np.ndarray:
         """_summary_
 
         Args:
-            init_graph (nx.Graph): _description_
+            init_graph (np.ndarray): _description_
             no_nodes (int): _description_
             edges (int): _description_
 
         Returns:
-            nx.Graph: _description_
+            np.ndarray: _description_
         """        
         try:
-            return nx.barabasi_albert_graph(no_nodes,edges,initial_graph = init_graph)
-        except nx.exception.NetworkXError:
+            return graph_drawer.generate_barabasi_albert_graph(no_nodes,edges,init_graph)
+        except Exception:
             print(f'Number of edges must be less that number of nodes, {edges}>{no_nodes}')
             userpanel()
         
-    def random_graph(no_nodes: int, Eedges: int) -> nx.Graph:
+    def random_graph(no_nodes: int, Eedges: int) -> np.ndarray:
         p = Eedges/comb(no_nodes,2)
         try:
-            return nx.erdos_renyi_graph(no_nodes,p)
-        except nx.exception.NetworkXErrror:
+            return graph_drawer.generate_random_graph(no_nodes,p)
+        except Exception:
             userpanel()
             
-    def watts(n:int, k:int,p: float)-> nx.Graph:
+    def watts(n:int, k:int,p: float)-> np.ndarray:
         try:
             return nx.watts_strogatz_graph(n,k,p)
-        except nx.exception.NetworkXErrror:
+        except Exception:
             userpanel()
         
-    def scale_free(n: int,a: float,b: float,c: float) -> nx.Graph:
+    def scale_free(n: int,a: float,b: float,c: float) -> np.ndarray:
         try:
             nx.scale_free_graph(n,a,b,c)
-        except nx.exception.NetworkXErrror:
+        except Exception:
             userpanel()
 
-def graphchoice(m:int,choice: str) -> nx.Graph:
+def graphchoice(m:int,choice: str) -> np.ndarray:
     """_summary_
 
     Args:
@@ -66,22 +67,22 @@ def graphchoice(m:int,choice: str) -> nx.Graph:
         choice (str): _description_
 
     Returns:
-        nx.Graph: _description_
+        np.ndarray: _description_
     """    
     
     
     '''Here we choose which graph we will be using a barabasi transform on'''   
 
     if choice == 'Wheel':
-        return nx.wheel_graph(m+1)
+        return graph_drawer.generate_wheel_graph(m+1)
     elif choice == 'Cycle' :
-        return nx.cycle_graph(m+1)
+        return graph_drawer.generate_cycle_graph(m+1)
     elif choice == 'Complete':
-        return nx.complete_graph(m+1)
+        return graph_drawer.generate_complete_graph(m+1)
     elif choice == 'Star':
-        return nx.star_graph(m+1)
+        return graph_drawer.generate_star_graph(m+1)
     elif choice == 'Erdos-Renyi':
-        return nx.erdos_renyi_graph(m+1,0.5)
+        return graph_drawer.generate_random_graph(m+1,0.5)
 
 class Panel:
     """_summary_
@@ -297,7 +298,7 @@ def userpanel() -> tuple:
     infect_params = panel.infect_panel()
     #(p_i,p_r,init_infected,init_immune,infection_type)
     #(user_graph,enable_vis,graph_type)
-    #(graph: nx.Graph,p_i: float, p_r: float,intial_infected: int = 1,intial_immune: int = 0,enable_vis: bool = False,infection_type: infection_strat = ConstantRateInfection,graph_type: str = 'Not Defined')
+    #(graph: np.ndarray,p_i: float, p_r: float,intial_infected: int = 1,intial_immune: int = 0,enable_vis: bool = False,infection_type: infection_strat = ConstantRateInfection,graph_type: str = 'Not Defined')
     parameters = (graph_params[0],infect_params[0],infect_params[1],infect_params[2],infect_params[3],graph_params[1],infect_params[4],graph_params[2])
     return parameters
     
