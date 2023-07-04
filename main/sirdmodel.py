@@ -40,7 +40,7 @@ def model(graph: ndarray,p_i: float, p_r: float,intial_infected: int = 1,intial_
     """The main SIRD model
 
     Args:
-        graph (nx.Graph): The input graph which the model will run on
+        graph (ndarray): The input graph which the model will run on
         p_i (float): Probaility of infection
         p_r (float): Probability of recovery
         intial_infected (int, optional): Number of intial infected people. Defaults to 1.
@@ -112,8 +112,12 @@ def model(graph: ndarray,p_i: float, p_r: float,intial_infected: int = 1,intial_
 
     
 def main():
-    result = model(*userpanel())
-    output_window(result)
+    #result = model(*userpanel())
+    graph = graph_drawer.generate_random_graph(1000,0.5)
+    time = perf_counter()
+    result = model(graph,0.6,0.2)
+    #output_window(result)
+    print(f"took {perf_counter()-time} seconds")
     # testing = [100,200,300,500,600,700,800,900,1000,1500,2000,2500,3000,4000,5000,6000,7000]
     # times = []
     # for i in testing:
