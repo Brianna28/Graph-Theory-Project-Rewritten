@@ -8,11 +8,16 @@ import networkx as nx #Adds the networkx package, used to create graph objects
 import matplotlib.pyplot as plt #A library to plot graphs
 import os
 import sys
+from platform import system
+from numpy import ndarray
 parent_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(parent_dir)
 from lib.infection_class import infection_graph
 from lib.infection_strategies import infection_strat,ConstantRateInfection, PersonalInfection, SkillCheckInfection
-from lib.gui import userpanel, output_window
+if system() == "Windows":
+    from lib.windows_gui import userpanel, output_window
+else:
+    from lib.non_windows_gui import userpanel,output_window
 from lib.matrix_graph_drawer import graph_drawer
 logging.basicConfig(level=logging.WARNING)
 
@@ -31,7 +36,7 @@ def days_infected_checker(infection: infection_graph,p_r: float, fatal_days: int
             if infection.daysinfected[node] > fatal_days: #if the daysinfected is greater than fatal days then it will either die or recover
                 infection.die_or_recover(node,p_r)
     
-def model(graph: nx.Graph,p_i: float, p_r: float,intial_infected: int = 1,intial_immune: int = 0,enable_vis: bool = False,infection_type: infection_strat = ConstantRateInfection,graph_type: str = 'Not Defined') -> tuple[dict,dict]:
+def model(graph: ndarray,p_i: float, p_r: float,intial_infected: int = 1,intial_immune: int = 0,enable_vis: bool = False,infection_type: infection_strat = ConstantRateInfection,graph_type: str = 'Not Defined') -> tuple[dict,dict]:
     """The main SIRD model
 
     Args:
@@ -62,7 +67,7 @@ def model(graph: nx.Graph,p_i: float, p_r: float,intial_infected: int = 1,intial
         '''If there is no nodes left infected either everyones dead or everyones recovered''' 
         if len(infection_network.infected) == 0:
             '''If theres no nodes left in the graph everyones dead'''
-            if infection_network.vertices == []:
+            if len(infection_network.vertices) == 0:
                 no_of_survivors = 0 #Everyones dead, no survivors
                 total_death = True
                 if enable_vis is True:
@@ -79,9 +84,7 @@ def model(graph: nx.Graph,p_i: float, p_r: float,intial_infected: int = 1,intial
                 total_death = False
                 if enable_vis is True:
                     '''Here we render both the orginal grpah and a graph of all the survivors to compare the devasation or lack there of'''
-                    print(infection_network.colours)
                     infection_network.update_picture()
-                    print(infection_network.colours)
                     f = plt.figure('Starting Graph')
                     nx.draw_networkx(origin_network.nxgraph,node_color = origin_network.colours.values() ,pos=origin_network.pos,with_labels=True)
                     f.show()
@@ -109,9 +112,7 @@ def model(graph: nx.Graph,p_i: float, p_r: float,intial_infected: int = 1,intial
 
     
 def main():
-    #result = model(*userpanel())
-    g = graph_drawer.generate_random_graph(25,0.2)
-    result = model(g,0.6,0.2,enable_vis=True)
+    result = model(*userpanel())
     output_window(result)
     # testing = [100,200,300,500,600,700,800,900,1000,1500,2000,2500,3000,4000,5000,6000,7000]
     # times = []

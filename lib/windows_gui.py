@@ -9,15 +9,8 @@ from lib.infection_strategies import ConstantRateInfection, PersonalInfection, S
 from lib.matrix_graph_drawer import graph_drawer
 import logging
 import numpy as np
-try:
-    import PySimpleGUI as sg
-    NOGUI = False
-except ImportError:
-    print('PySimpleGUI is not available, please try installing PySimpleGUI')
-    NOGUI = True
-    sg = None
 
-
+import PySimpleGUI as sg
 
 
 class graph_constructer:
