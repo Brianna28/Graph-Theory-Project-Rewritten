@@ -4,6 +4,16 @@ from lib.betterdiameter import betterdiameter
 import logging
 import random as rand
 from math import floor
+
+
+"""
+    TODO: Add clustering Coefficent ()
+    TODO: Add Aveerage Shortest Path Length ()
+
+"""
+
+
+
 class infection_graph: 
     """The infect graph class is the object that we will be using for a majority of the programs run time, it creates an object that holds data about the on goign infection
     """    
