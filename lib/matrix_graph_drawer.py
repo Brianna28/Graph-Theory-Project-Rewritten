@@ -1,8 +1,8 @@
 import numpy as np
-
+from time import perf_counter
 
 class graph_drawer:
-    def generate_random_graph(num_nodes: int, edge_probability: float) -> np.ndarray:
+    def test_generate_random_graph(num_nodes: int, edge_probability: float) -> np.ndarray:
         if num_nodes == 0:
             err = "Graphs need more than one node"
             raise ValueError(err)
@@ -16,6 +16,14 @@ class graph_drawer:
                 if np.random.random() < edge_probability:
                     adjacency_matrix[i, j] = 1
                     adjacency_matrix[j, i] = 1
+        
+        return adjacency_matrix
+    def generate_random_graph(num_nodes: int, edge_probability: float) -> np.ndarray:
+        if num_nodes <= 1:
+            raise ValueError("Graphs need more than one node")
+        
+        adjacency_matrix = np.triu(np.random.random((num_nodes, num_nodes)) < edge_probability, k=1).astype(int)
+        adjacency_matrix += adjacency_matrix.T
         
         return adjacency_matrix
 
@@ -110,5 +118,9 @@ class graph_drawer:
 
 
 if __name__ == '__main__':
-    
-    print(graph_drawer.generate_random_graph(3,0.5))
+    time = perf_counter()
+    print(graph_drawer.generate_random_graph(3000,0.5))
+    print(f'tool {perf_counter()-time}')
+    time = perf_counter()
+    print(graph_drawer.test_generate_random_graph(3000,0.5))
+    print(f'tool {perf_counter()-time}')

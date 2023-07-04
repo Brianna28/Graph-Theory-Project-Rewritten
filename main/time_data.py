@@ -3,7 +3,7 @@ from time import perf_counter
 from sirdmodel import model
 from lib.matrix_graph_drawer import graph_drawer
 import pandas as pd
-
+from tqdm import tqdm
 
 
 def time(n):
@@ -12,8 +12,8 @@ def time(n):
     return perf_counter()-time
 
 def data():
-    n = {50*i:graph_drawer.generate_random_graph(50*i,0.5) for i in range(1,100)}
-    results = {x:time(n.get(x)) for x in n} 
+    n = {50*i:graph_drawer.generate_random_graph(50*i,0.5) for i in range(1,50)}
+    results = {x:time(n.get(x)) for x in tqdm(n)} 
     done = pd.DataFrame.from_dict(results,orient='index')
     done.to_csv('data.csv')
 
