@@ -2,9 +2,9 @@
 Rewrite this section only using matrices ()
 '''
 
-
-from abc import ABC, abstractmethod
-from lib.infection_class import infection_graph
+from typing import Type
+from abc import ABC, abstractmethod,abstractstaticmethod
+from infection_class import infection_graph
 import random as rand
 import networkx as nx
 import logging
@@ -38,21 +38,22 @@ class infection_strat(ABC):
         A __str__ method for a string representation of the strat
         An assumptions dunction that returns the assumptions the infection strategy makes
     """     
-    @abstractmethod
-    def infect(infclass: infection_graph, p: float) -> None:
+    @abstractstaticmethod
+    def infect(infclass: Type["infection_graph"], p: float) -> None: #type: ignore
         pass
     
-    @abstractmethod
+    @abstractstaticmethod
     def __str__():
         pass
     
-    @abstractmethod
+    @abstractstaticmethod
     def assumptions():
         pass
 
 class ConstantRateInfection(infection_strat):
     """This is the main infection strategy basiing off a constant rate to infect each node
     """    
+    @staticmethod
     def infect(infclass: infection_graph,p: float) -> None:
         """This method infects usinga constant rate to infect each node
 
@@ -77,11 +78,11 @@ class ConstantRateInfection(infection_strat):
                 infclass.no_of_successful_infections += 1 #we have successfully infected so we add 1 to the number of successful infections
             else: #If the node isnt infected we ignore it
                 pass
-            
+    @staticmethod
     def __str__() -> str:
         """Returns a string representation of the strategy"""
         return 'ConstantRate'
-    
+    @staticmethod
     def assumptions() -> list[str]:
         """Returns a list of assumptions about the strat"""
         return ['Rate of infection is constant\n']
@@ -91,6 +92,7 @@ class ConstantRateInfection(infection_strat):
 class PersonalInfection(infection_strat):
     """In this strategy everyone has a personal infection rate, so we are techinally agnostic on how he infecctionous of the virus
     """    
+    @staticmethod
     def infect(infclass: infection_graph, p: float) -> None:   
         to_be_infected = []
         for i in infclass.infected: #this part gets all the neighburs of each infected node ready to then attempt to infect them
@@ -98,7 +100,7 @@ class PersonalInfection(infection_strat):
             for n in k:
                 to_be_infected.append(n)
         for node in to_be_infected:#for each node in the   to_be_infected list the rate of infection is p and will be added  to the infected class
-            personal_rate = infclass.PersonalInfection.get(node)
+            personal_rate = infclass.PersonalInfection.get(node,0.0)
             r_no = rand.random()
             if infclass.timesrecovered[node] > 0:
                 pass
@@ -110,11 +112,12 @@ class PersonalInfection(infection_strat):
                 logging.debug(f"{node} was infected")
             else:
                 pass
-            
+    @staticmethod        
     def __str__():
         return 'PersonalRate'
     
 class SkillCheckInfection(infection_strat):
+    @staticmethod
     def infect(infclass: infection_graph,p:float) -> None:
         """_summary_
 
@@ -128,7 +131,7 @@ class SkillCheckInfection(infection_strat):
             for n in k:
                 to_be_infected.append(n)
         for node in to_be_infected:#for each node in the   to_be_infected list the rate of infection is p and will be added  to the infected class
-            personal_rate = infclass.PersonalInfection.get(node)
+            personal_rate = infclass.PersonalInfection.get(node,0.0)
 
             infection_roll = rand.randint(1,20) + modifier(p) 
             resist_roll = rand.randint(1,20) + modifier(personal_rate)
@@ -144,6 +147,10 @@ class SkillCheckInfection(infection_strat):
                 logging.debug(f"{node} was infected")
             else:
                 pass
-            
+    @staticmethod       
     def __str__():
         return 'SkillCheck'
+
+if __name__ == '__main__':
+    A = ConstantRateInfection()
+    print(type(A))

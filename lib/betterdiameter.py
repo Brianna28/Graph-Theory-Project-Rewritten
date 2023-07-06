@@ -1,9 +1,9 @@
 from time import perf_counter
 from copy import deepcopy
 import numpy as np
-from lib.matrix_graph_drawer import graph_drawer
+from matrix_graph_drawer import graph_drawer
 
-def test_betterdiameter(G: np.ndarray) -> int:
+def test_betterdiameter(G: np.ndarray) -> int | float:
     """This function calculates the diameter of a graph using matrix multiplications.
 
     It does this by the following fact:
@@ -44,7 +44,7 @@ def test_betterdiameter(G: np.ndarray) -> int:
         return np.inf
 
 
-def betterdiameter(G: np.ndarray) -> int:
+def betterdiameter(G: np.ndarray) -> int | float:
     """This function calculates the diameter of a graph using matrix multiplications.
     
     Args:

@@ -1,11 +1,11 @@
 import networkx as nx
 import numpy as np
-from lib.betterdiameter import betterdiameter
+from betterdiameter import betterdiameter
 import logging
 import random as rand
 from math import floor
-from lib.average_shortest_path import average_shortest_path_length
-from lib.clustering_coefficent import average_clustering_coefficient
+from average_shortest_path import average_shortest_path_length
+from clustering_coefficent import average_clustering_coefficient
 """
     TODO: Add clustering Coefficent ()
     TODO: Add Aveerage Shortest Path Length ()
@@ -106,7 +106,7 @@ class infection_graph:
             self.inital_infection()
         self.infected.add(self.vertices[r_number]) #adds the node to self.infcected
         
-    def stats(self) -> dict:
+    def stats(self) -> dict[str,float]:
         """This function gives information about the garphs structure
 
         Returns:
@@ -117,7 +117,7 @@ class infection_graph:
                 'average_path_length':self.average_path_length,
                 'average_clustering': self.clustering,
                 'average_degree':self.average_degree} 
-    def inf_stats(self) -> dict:
+    def inf_stats(self) -> dict[str,int]:
         """This function returns information about the infection
 
         Returns:
@@ -151,7 +151,7 @@ class infection_graph:
             self.daysinfected.update({node:0})
             logging.debug(f"{node} has died")
                 
-    def PersonalInfectionRates(self) -> dict:
+    def PersonalInfectionRates(self) -> dict[int,float]:
         """Creates all the personal infection rates for the nodes
 
         Returns:
@@ -166,12 +166,4 @@ class infection_graph:
         self.pos = nx.spring_layout(self.nxgraph)# This sets a standard layout for when we output images of the graph
     
 if __name__  == '__main__':
-    g = np.array([[0, 1, 1],
-                [1, 0, 1],
-                [1, 1, 0]])
-
-    A = infection_graph(g, 1,0,False)
-    print(A.graph)
-    A.rem_node(1)
-    print(A.graph)
-    
+    h= 0

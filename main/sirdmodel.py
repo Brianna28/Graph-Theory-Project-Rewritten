@@ -1,6 +1,7 @@
 '''
 Rewrite this section only using matrices ()
 '''
+from typing import Type
 from time import perf_counter
 from copy import deepcopy #used to compare the starting graph with the end result
 import logging
@@ -36,7 +37,7 @@ def days_infected_checker(infection: infection_graph,p_r: float, fatal_days: int
             if infection.daysinfected[node] > fatal_days: #if the daysinfected is greater than fatal days then it will either die or recover
                 infection.die_or_recover(node,p_r)
     
-def model(graph: ndarray,p_i: float, p_r: float,intial_infected: int = 1,intial_immune: int = 0,enable_vis: bool = False,infection_type: infection_strat = ConstantRateInfection,graph_type: str = 'Not Defined') -> tuple[dict,dict]:
+def model(graph: ndarray,p_i: float, p_r: float,intial_infected: int = 1,intial_immune: int = 0,enable_vis: bool = False,infection_type: Type[infection_strat] = ConstantRateInfection,graph_type: str = 'Not Defined') -> tuple[dict,dict]:
     """The main SIRD model
 
     Args:
@@ -60,7 +61,7 @@ def model(graph: ndarray,p_i: float, p_r: float,intial_infected: int = 1,intial_
     days_of_the_infcetion = 0
     '''For all intensive purposes this for loop will run forever until either all the nodes die or the infection dies out'''
     for _ in range(100000):
-        infection_type.infect(infection_network,p_i) #We call the infect func on our graph and we will do this many times
+        infection_type.infect(infection_network,p_i) #type:ignore We call the infect func on our graph and we will do this many times
         '''Here we look in daysinfected and increment the time a node has been infected by one then see if any node has been
         infected for more than 10 days if so the node will attempt to recover or die'''
         days_infected_checker(infection_network,p_r,2)

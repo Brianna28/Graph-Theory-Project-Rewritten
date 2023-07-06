@@ -45,7 +45,7 @@ def average_clustering_coefficient(adjacency_matrix):
             num_edges = np.sum(adjacency_matrix[neighbors][:, neighbors]) // 2
             clustering_coefficients[i] = 2 * num_edges / (k * (k - 1))
     
-    return np.mean(clustering_coefficients)
+    return float(np.mean(clustering_coefficients))
 
 
 

@@ -2,7 +2,8 @@ import numpy as np
 from time import perf_counter
 
 class graph_drawer:
-    def test_generate_random_graph(num_nodes: int, edge_probability: float) -> np.ndarray:
+    @staticmethod
+    def test_generate_random_graph( num_nodes: int, edge_probability: float) -> np.ndarray:
         if num_nodes == 0:
             err = "Graphs need more than one node"
             raise ValueError(err)
@@ -18,7 +19,8 @@ class graph_drawer:
                     adjacency_matrix[j, i] = 1
         
         return adjacency_matrix
-    def generate_random_graph(num_nodes: int, edge_probability: float) -> np.ndarray:
+    @staticmethod
+    def generate_random_graph( num_nodes: int, edge_probability: float) -> np.ndarray:
         if num_nodes <= 1:
             raise ValueError("Graphs need more than one node")
         
@@ -26,8 +28,8 @@ class graph_drawer:
         adjacency_matrix += adjacency_matrix.T
         
         return adjacency_matrix
-
-    def generate_wheel_graph(num_nodes: int) -> np.ndarray:
+    @staticmethod
+    def generate_wheel_graph( num_nodes: int) -> np.ndarray:
         if num_nodes == 0:
             err = "Graphs need more than one node"
             raise ValueError(err)
@@ -44,8 +46,8 @@ class graph_drawer:
         
         return adjacency_matrix
 
-
-    def generate_barabasi_albert_graph(num_nodes: int, num_edges_to_attach: int, existing_graph: np.ndarray=None)->np.ndarray:
+    @staticmethod
+    def generate_barabasi_albert_graph( num_nodes: int, num_edges_to_attach: int, existing_graph: np.ndarray)->np.ndarray:
         if num_nodes == 0:
             err = "Graphs need more than one node"
             raise ValueError(err)
@@ -71,7 +73,7 @@ class graph_drawer:
             degrees = np.sum(adjacency_matrix, axis=0)
 
         # Attach the remaining nodes
-        for new_node in range(existing_size, num_nodes):
+        for new_node in range(existing_size, num_nodes):#type: ignore
             # Calculate the probability distribution based on node degrees
             probabilities = degrees[:new_node] / np.sum(degrees[:new_node])
             
@@ -87,8 +89,8 @@ class graph_drawer:
             degrees[targets] += 1
 
         return adjacency_matrix
-
-    def generate_cycle_graph(num_nodes):
+    @staticmethod
+    def generate_cycle_graph( num_nodes):
         if num_nodes == 0:
             raise ValueError("Need more than 0 nodes")
         adjacency_matrix = np.zeros((num_nodes, num_nodes), dtype=int)
@@ -98,14 +100,14 @@ class graph_drawer:
             adjacency_matrix[(i+1) % num_nodes, i] = 1
         
         return adjacency_matrix
-
-    def generate_complete_graph(num_nodes):
+    @staticmethod
+    def generate_complete_graph( num_nodes):
         if num_nodes == 0:
             raise ValueError("Need more than 0 nodes")
-        adjacency_matrix = np.ones((num_nodes, num_nodes), dtype=int) - np.eye(num_nodes, dtype=int)
+        adjacency_matrix = np.ones((num_nodes, num_nodes), dtype=int) - np.eye(num_nodes, dtype=int) # type: ignore
         return adjacency_matrix
-
-    def generate_star_graph(num_nodes):
+    @staticmethod
+    def generate_star_graph( num_nodes):
         if num_nodes == 0:
             raise ValueError("Need more than 0 nodes")
         adjacency_matrix = np.zeros((num_nodes, num_nodes), dtype=int)
@@ -119,8 +121,8 @@ class graph_drawer:
 
 if __name__ == '__main__':
     time = perf_counter()
-    print(graph_drawer.generate_random_graph(3000,0.5))
+    print(graph_drawer.generate_random_graph(3000,0.5)) # type: ignore
     print(f'tool {perf_counter()-time}')
     time = perf_counter()
-    print(graph_drawer.test_generate_random_graph(3000,0.5))
+    print(graph_drawer.test_generate_random_graph(3000,0.5)) # type: ignore
     print(f'tool {perf_counter()-time}')
