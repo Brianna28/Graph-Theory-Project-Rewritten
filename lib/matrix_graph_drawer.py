@@ -90,7 +90,7 @@ class graph_drawer:
 
         return adjacency_matrix
     @staticmethod
-    def generate_cycle_graph( num_nodes):
+    def generate_cycle_graph(num_nodes: int):
         if num_nodes == 0:
             raise ValueError("Need more than 0 nodes")
         adjacency_matrix = np.zeros((num_nodes, num_nodes), dtype=int)
@@ -101,13 +101,12 @@ class graph_drawer:
         
         return adjacency_matrix
     @staticmethod
-    def generate_complete_graph( num_nodes):
+    def generate_complete_graph(num_nodes: int):
         if num_nodes == 0:
             raise ValueError("Need more than 0 nodes")
-        adjacency_matrix = np.ones((num_nodes, num_nodes), dtype=int) - np.eye(num_nodes, dtype=int) # type: ignore
-        return adjacency_matrix
+        adjacency_matrix = np.ones((num_nodes, num_nodes), dtype=int) - np.eye(num_nodes, dtype=int)  # type: ignore
     @staticmethod
-    def generate_star_graph( num_nodes):
+    def generate_star_graph( num_nodes: int):
         if num_nodes == 0:
             raise ValueError("Need more than 0 nodes")
         adjacency_matrix = np.zeros((num_nodes, num_nodes), dtype=int)

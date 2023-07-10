@@ -3,6 +3,7 @@ from copy import deepcopy
 import numpy as np
 from matrix_graph_drawer import graph_drawer
 
+
 def test_betterdiameter(G: np.ndarray) -> int | float:
     """This function calculates the diameter of a graph using matrix multiplications.
 
@@ -27,13 +28,13 @@ def test_betterdiameter(G: np.ndarray) -> int | float:
     const_A = A.copy()
     t = 1  # The miniumn diameter of a graph must be 1
     # if the graph is disconncetd its diamter is infinite
-    #if not nx.is_connected(G) is True:
+    # if not nx.is_connected(G) is True:
     #    return np.inf  # infinity
     for _ in range(1000):  # We interate this for 1000 trials
         # This counts how many non zeros are in the matrix
         x = np.count_nonzero(A)
         # If the number of nonzeros is equal to the size of the matrix, all values are non zero
-        if x == dimensions[0]**2:
+        if x == dimensions[0] ** 2:
             return t  # retunr the diameter
         else:
             t += 1  # Increate t by 1
@@ -46,39 +47,37 @@ def test_betterdiameter(G: np.ndarray) -> int | float:
 
 def betterdiameter(G: np.ndarray) -> int | float:
     """This function calculates the diameter of a graph using matrix multiplications.
-    
+
     Args:
         A (np.ndarray): The adjacency matrix of the graph
-    
+
     Returns:
         int: The diameter of the graph
     """
-    A =  G.copy()
+    A = G.copy()
     np.fill_diagonal(A, 1)  # Add self-loops
-    
+
     t = 1  # The minimum diameter of a graph is 1
-    
+
     for _ in range(1000):
         B = np.linalg.matrix_power(A, t)  # Raise A to the power of t
-        
+
         if np.all(B > 0):  # Check if all entries are greater than 0
             return t  # Return the diameter
-        
+
         t += 1  # Increase t by 1
-        
+
         A = np.logical_or(A, B)  # Element-wise logical OR of A and B
-    
+
     return np.inf
 
 
-
-
-if __name__ == '__main__':
-    #K = nx.barabasi_albert_graph(10, 7)
-    K = graph_drawer.generate_random_graph(10000,0)
+if __name__ == "__main__":
+    # K = nx.barabasi_albert_graph(10, 7)
+    K = graph_drawer.generate_random_graph(10000, 0)
     t = perf_counter()
-    #my = betterdiameter(K)
-    #print(f'My algoirthim took {perf_counter() - t},{my=}')
+    # my = betterdiameter(K)
+    # print(f'My algoirthim took {perf_counter() - t},{my=}')
     t = perf_counter()
     kl = test_betterdiameter(K)
-    print(f'My algoirthim took {perf_counter() - t},{kl=}')
+    print(f"My algoirthim took {perf_counter() - t},{kl=}")

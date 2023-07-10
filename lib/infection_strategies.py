@@ -2,7 +2,7 @@
 Rewrite this section only using matrices ()
 '''
 
-from typing import Type
+from typing import Type,Protocol
 from abc import ABC, abstractmethod,abstractstaticmethod
 from infection_class import infection_graph
 import random as rand
@@ -31,26 +31,25 @@ def modifier(x: float) -> int:
 
 
 
-class infection_strat(ABC): 
+class infection_strat(Protocol): 
     """This is an abstract base class for the infection strategies, it sets the blueprint for what the infection strategies should look like
     They should have:
         An Infection method
         A __str__ method for a string representation of the strat
         An assumptions dunction that returns the assumptions the infection strategy makes
-    """     
-    @abstractstaticmethod
-    def infect(infclass: Type["infection_graph"], p: float) -> None: #type: ignore
-        pass
+    """
+    @staticmethod   
+    def infect(infclass: infection_graph, p: float) -> None:
+        ...
     
-    @abstractstaticmethod
-    def __str__():
-        pass
-    
-    @abstractstaticmethod
-    def assumptions():
-        pass
+    @staticmethod
+    def __str__() -> str:
+        ...
+    @staticmethod
+    def assumptions() -> list[str]:
+        ...
 
-class ConstantRateInfection(infection_strat):
+class ConstantRateInfection:
     """This is the main infection strategy basiing off a constant rate to infect each node
     """    
     @staticmethod
@@ -63,9 +62,8 @@ class ConstantRateInfection(infection_strat):
         """        
         to_be_infected = []
         for i in infclass.infected: #this part gets all the neighburs of each infected node ready to then attempt to infect them
-            k = infclass.get_neighbors(i)
-            for n in k:
-                to_be_infected.append(n)
+            neighbors = infclass.get_neighbors(i)
+            to_be_infected.extend(neighbors)
         to_be_infected = [x for x in  to_be_infected if x not in infclass.infected] #We filter out any nodes that are already infected
         for node in to_be_infected:#for each node in the   to_be_infected list the rate of infection is p and will be added  to the infected class
             r_no = rand.random() #A random float from 0 to 1
@@ -89,7 +87,7 @@ class ConstantRateInfection(infection_strat):
     
     
 """Do the other strategies later"""    
-class PersonalInfection(infection_strat):
+class PersonalInfection:
     """In this strategy everyone has a personal infection rate, so we are techinally agnostic on how he infecctionous of the virus
     """    
     @staticmethod
@@ -113,10 +111,15 @@ class PersonalInfection(infection_strat):
             else:
                 pass
     @staticmethod        
-    def __str__():
+    def __str__() -> str:
         return 'PersonalRate'
     
-class SkillCheckInfection(infection_strat):
+    @staticmethod
+    def assumptions() -> list[str]:
+        ...
+    
+    
+class SkillCheckInfection:
     @staticmethod
     def infect(infclass: infection_graph,p:float) -> None:
         """_summary_
@@ -148,8 +151,11 @@ class SkillCheckInfection(infection_strat):
             else:
                 pass
     @staticmethod       
-    def __str__():
+    def __str__() -> str:
         return 'SkillCheck'
+    @staticmethod
+    def assumptions() -> list[str]:
+        ...
 
 if __name__ == '__main__':
     A = ConstantRateInfection()
