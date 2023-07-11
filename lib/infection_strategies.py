@@ -4,7 +4,7 @@ Rewrite this section only using matrices ()
 
 from typing import Type,Protocol
 from abc import ABC, abstractmethod,abstractstaticmethod
-from infection_class import infection_graph
+from .infection_class import infection_graph
 import random as rand
 import networkx as nx
 import logging

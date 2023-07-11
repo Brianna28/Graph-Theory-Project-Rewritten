@@ -1,11 +1,11 @@
 import networkx as nx
 import numpy as np
-from betterdiameter import betterdiameter
+from .betterdiameter import betterdiameter
 import logging
 import random as rand
 from math import floor
-from average_shortest_path import average_shortest_path_length
-from clustering_coefficent import average_clustering_coefficient
+from .average_shortest_path import average_shortest_path_length
+from .clustering_coefficent import average_clustering_coefficient
 
 """
     TODO: Add clustering Coefficent (/)

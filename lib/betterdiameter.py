@@ -1,7 +1,7 @@
 from time import perf_counter
 from copy import deepcopy
 import numpy as np
-from matrix_graph_drawer import graph_drawer
+from .matrix_graph_drawer import graph_drawer
 
 
 def test_betterdiameter(G: np.ndarray) -> int | float:

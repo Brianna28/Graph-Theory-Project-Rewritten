@@ -4,6 +4,8 @@ Rewrite this section only using matrices (/)
 import logging
 import os
 import sys
+parent_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(parent_dir)
 from copy import deepcopy  # used to compare the starting graph with the end result
 from platform import system
 from time import perf_counter
@@ -22,8 +24,7 @@ from lib.infection_strategies import (
 )
 from lib.matrix_graph_drawer import graph_drawer
 
-parent_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-sys.path.append(parent_dir)
+
 if system() == "Windows":
     from lib.windows_gui import output_window, userpanel
 else:

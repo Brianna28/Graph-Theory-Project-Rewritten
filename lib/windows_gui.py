@@ -5,8 +5,8 @@ Rewrite this section only using matrices ()
 
 import networkx as nx
 from math import comb
-from lib.infection_strategies import ConstantRateInfection, PersonalInfection, SkillCheckInfection
-from lib.matrix_graph_drawer import graph_drawer
+from .infection_strategies import ConstantRateInfection, PersonalInfection, SkillCheckInfection
+from .matrix_graph_drawer import graph_drawer
 import logging
 import numpy as np
 
